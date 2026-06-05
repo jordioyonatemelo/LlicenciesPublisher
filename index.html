@@ -1,119 +1,286 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<title>KUBIK — Generador de Códigos de Activación</title>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: #0a0a0f; color: #e8e8f0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 13px; min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-}
-.card {
-  background: #13131f; border: 1px solid #1e1e30; border-radius: 14px;
-  padding: 32px 36px; width: 480px; display: flex; flex-direction: column; gap: 20px;
-}
-h2 { font-size: 0.95rem; font-weight: 800; color: #e8e8f0; text-align: center; display:flex; align-items:center; justify-content:center; gap:10px; }
-p  { font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.7; }
-label { font-size: 0.65rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; display:block; margin-bottom:6px; }
-input[type="text"] {
-  width: 100%;
-  background: #0a0a0f; border: 1px solid #1e1e30; border-radius: 7px;
-  color: #e8e8f0; padding: 10px 14px; font-size: 0.82rem;
-  font-family: monospace; letter-spacing: 0.08em; outline: none; text-transform: uppercase;
-}
-input:focus { border-color: #1877f2; }
-button {
-  width: 100%; padding: 12px;
-  background: linear-gradient(135deg, #1877f2, #0d5cbf);
-  border: none; border-radius: 8px; color: #fff; font-size: 0.82rem;
-  font-weight: 700; cursor: pointer;
-}
-button:hover { filter: brightness(1.1); }
-.result {
-  display: none; background: #0a0a0f; border: 1px solid #065f46;
-  border-radius: 8px; padding: 14px 16px; flex-direction: column; gap: 8px;
-}
-.result.show { display: flex; }
-.result-label { font-size: 0.58rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; }
-.result-code  { font-family: monospace; font-size: 1.1rem; color: #4ade80; letter-spacing: 0.14em; text-align: center; font-weight: 700; }
-.btn-copy2 {
-  background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25);
-  border-radius: 5px; color: #4ade80; font-size: 0.65rem; cursor: pointer;
-  padding: 5px; font-weight: 600; width: 100%;
-}
-.btn-copy2:hover { background: rgba(74,222,128,0.15); }
-.warning {
-  background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2);
-  border-radius: 7px; padding: 8px 12px; font-size: 0.62rem; color: #fbbf24; line-height: 1.7;
-}
-.hint { font-size: 0.6rem; color: #4b5563; text-align:center; }
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KUBIK — Generador de Códigos de Activación</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #0a0a0f;
+            color: #e8e8f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 13px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .card {
+            background: #13131f;
+            border: 1px solid #1e1e30;
+            border-radius: 14px;
+            padding: 32px 36px;
+            width: 480px;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        h2 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #e8e8f0;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        p {
+            font-size: 0.7rem;
+            color: #6b7280;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #0a0a0f;
+            border: 1px solid #1e1e30;
+            border-radius: 7px;
+            color: #e8e8f0;
+            padding: 10px 14px;
+            font-size: 0.82rem;
+            font-family: monospace;
+            letter-spacing: 0.08em;
+            outline: none;
+            text-transform: uppercase;
+        }
+
+        input:focus {
+            border-color: #1877f2;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #1877f2, #0d5cbf);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+            button:hover {
+                filter: brightness(1.1);
+            }
+
+        .result {
+            display: none;
+            background: #0a0a0f;
+            border: 1px solid #065f46;
+            border-radius: 8px;
+            padding: 14px 16px;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+            .result.show {
+                display: flex;
+            }
+
+        .result-label {
+            font-size: 0.58rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+        }
+
+        .result-code {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #4ade80;
+            letter-spacing: 0.14em;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .btn-copy2 {
+            background: rgba(74,222,128,0.08);
+            border: 1px solid rgba(74,222,128,0.25);
+            border-radius: 5px;
+            color: #4ade80;
+            font-size: 0.65rem;
+            cursor: pointer;
+            padding: 5px;
+            font-weight: 600;
+            width: 100%;
+        }
+
+            .btn-copy2:hover {
+                background: rgba(74,222,128,0.15);
+            }
+
+        .warning {
+            background: rgba(251,191,36,0.08);
+            border: 1px solid rgba(251,191,36,0.2);
+            border-radius: 7px;
+            padding: 8px 12px;
+            font-size: 0.62rem;
+            color: #fbbf24;
+            line-height: 1.7;
+        }
+
+        .hint {
+            font-size: 0.6rem;
+            color: #4b5563;
+            text-align: center;
+        }
+
+        @media (max-width: 520px) {
+            body {
+                align-items: flex-start;
+                padding: 12px;
+            }
+
+            .card {
+                padding: 24px 20px;
+                border-radius: 12px;
+                gap: 18px;
+                width: 100%;
+            }
+
+            h2 {
+                font-size: 1.05rem;
+            }
+
+            p {
+                font-size: 0.78rem;
+            }
+
+            label {
+                font-size: 0.72rem;
+            }
+
+            input[type="text"] {
+                font-size: 1rem;
+                padding: 13px 14px;
+            }
+
+            button {
+                padding: 15px;
+                font-size: 0.92rem;
+            }
+
+            .result-code {
+                font-size: 1.3rem;
+            }
+
+            .btn-copy2 {
+                font-size: 0.75rem;
+                padding: 10px;
+            }
+
+            .warning {
+                font-size: 0.72rem;
+                padding: 10px 14px;
+            }
+
+            .hint {
+                font-size: 0.68rem;
+            }
+
+            .result-label {
+                font-size: 0.65rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="card">
-  <h2>
-    🔐 Generador de Licencias KUBIK
-  </h2>
-  <p>Introduce el ID del dispositivo del usuario (24 caracteres)<br>para generar su código de activación único.</p>
+    <div class="card">
+        <h2>
+            🔐 Generador de Licencias KUBIK
+        </h2>
+        <p>Introduce el ID del dispositivo del usuario (24 caracteres)<br>para generar su código de activación único.</p>
 
-  <div class="warning">
-    ⚠️ <strong>SOLO USO INTERNO.</strong> No compartas esta herramienta.<br>
-    Cada código es único e intransferible para ese dispositivo.
-  </div>
+        <div class="warning">
+            ⚠️ <strong>SOLO USO INTERNO.</strong> No compartas esta herramienta.<br>
+            Cada código es único e intransferible para ese dispositivo.
+        </div>
 
-  <div>
-    <label>ID del dispositivo (24 caracteres)</label>
-    <input type="text" id="fpInput" placeholder="Ej: A3F7C2D1B8E402917F3C92A0" maxlength="24" autocomplete="off" spellcheck="false"/>
-    <div class="hint" style="margin-top:5px;">El usuario lo ve en la pantalla de activación → sección "ID de este dispositivo"</div>
-  </div>
+        <div>
+            <label>ID del dispositivo (24 caracteres)</label>
+            <input type="text" id="fpInput" placeholder="Ej: A3F7C2D1B8E402917F3C92A0" maxlength="24" autocomplete="off" spellcheck="false" />
+            <div class="hint" style="margin-top:5px;">El usuario lo ve en la pantalla de activación → sección "ID de este dispositivo"</div>
+        </div>
 
-  <button id="btnGenerate">⚡ Generar código de activación</button>
+        <button id="btnGenerate">⚡ Generar código de activación</button>
 
-  <div class="result" id="result">
-    <div class="result-label">✅ Código de activación para este dispositivo</div>
-    <div class="result-code" id="codeOutput">—</div>
-    <button class="btn-copy2" id="btnCopy2">📋 Copiar código</button>
-  </div>
-</div>
+        <div class="result" id="result">
+            <div class="result-label">✅ Código de activación para este dispositivo</div>
+            <div class="result-code" id="codeOutput">—</div>
+            <button class="btn-copy2" id="btnCopy2">📋 Copiar código</button>
+        </div>
+    </div>
 
-<script>
-const SECRET_SALT = 'KUBIK-2025-J.OYONATE-SALT-X9#mK'; // debe coincidir con license.js
+    <script>
+        const SECRET_SALT = 'KUBIK-2025-J.OYONATE-SALT-X9#mK'; // debe coincidir con license.js
 
-async function sha256(message) {
-  const buf  = new TextEncoder().encode(message);
-  const hash = await crypto.subtle.digest('SHA-256', buf);
-  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
-}
+        async function sha256(message) {
+            const buf  = new TextEncoder().encode(message);
+            const hash = await crypto.subtle.digest('SHA-256', buf);
+            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+        }
 
-async function generateCode(fp) {
-  const hash = await sha256(fp + ':' + SECRET_SALT);
-  return hash.substring(0, 20).toUpperCase().match(/.{1,5}/g).join('-');
-}
+        async function generateCode(fp) {
+            const hash = await sha256(fp + ':' + SECRET_SALT);
+            return hash.substring(0, 20).toUpperCase().match(/.{1,5}/g).join('-');
+        }
 
-document.getElementById('fpInput').addEventListener('input', e => {
-  e.target.value = e.target.value.replace(/[^A-Fa-f0-9]/g, '').toUpperCase().substring(0, 24);
-  document.getElementById('result').classList.remove('show');
-});
+        document.getElementById('fpInput').addEventListener('input', e => {
+            e.target.value = e.target.value.replace(/[^A-Fa-f0-9]/g, '').toUpperCase().substring(0, 24);
+        document.getElementById('result').classList.remove('show');
+        });
 
-document.getElementById('btnGenerate').addEventListener('click', async () => {
-  const fp = document.getElementById('fpInput').value.trim();
-  if (fp.length !== 24) { alert('El ID debe tener exactamente 24 caracteres hexadecimales.'); return; }
-  const code = await generateCode(fp);
-  document.getElementById('codeOutput').textContent = code;
-  document.getElementById('result').classList.add('show');
-});
+        document.getElementById('btnGenerate').addEventListener('click', async () => {
+            const fp = document.getElementById('fpInput').value.trim();
+        if (fp.length !== 24) { alert('El ID debe tener exactamente 24 caracteres hexadecimales.'); return; }
+        const code = await generateCode(fp);
+        document.getElementById('codeOutput').textContent = code;
+        document.getElementById('result').classList.add('show');
+        });
 
-document.getElementById('btnCopy2').addEventListener('click', () => {
-  const code = document.getElementById('codeOutput').textContent;
-  navigator.clipboard.writeText(code).then(() => {
-    document.getElementById('btnCopy2').textContent = '✓ ¡Copiado!';
-    setTimeout(() => { document.getElementById('btnCopy2').textContent = '📋 Copiar código'; }, 2000);
-  });
-});
-</script>
-</div>
+        document.getElementById('btnCopy2').addEventListener('click', () => {
+            const code = document.getElementById('codeOutput').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+            document.getElementById('btnCopy2').textContent = '✓ ¡Copiado!';
+        setTimeout(() => { document.getElementById('btnCopy2').textContent = '📋 Copiar código'; }, 2000);
+        });
+        });
+    </script>
+    </div>
 </body>
 </html>
