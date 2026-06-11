@@ -1,286 +1,126 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KUBIK — Generador de Códigos de Activación</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background: #0a0a0f;
-            color: #e8e8f0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: 13px;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-
-        .card {
-            background: #13131f;
-            border: 1px solid #1e1e30;
-            border-radius: 14px;
-            padding: 32px 36px;
-            width: 480px;
-            max-width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        h2 {
-            font-size: 0.95rem;
-            font-weight: 800;
-            color: #e8e8f0;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        p {
-            font-size: 0.7rem;
-            color: #6b7280;
-            text-align: center;
-            line-height: 1.7;
-        }
-
-        label {
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            background: #0a0a0f;
-            border: 1px solid #1e1e30;
-            border-radius: 7px;
-            color: #e8e8f0;
-            padding: 10px 14px;
-            font-size: 0.82rem;
-            font-family: monospace;
-            letter-spacing: 0.08em;
-            outline: none;
-            text-transform: uppercase;
-        }
-
-        input:focus {
-            border-color: #1877f2;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #1877f2, #0d5cbf);
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 0.82rem;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-            button:hover {
-                filter: brightness(1.1);
-            }
-
-        .result {
-            display: none;
-            background: #0a0a0f;
-            border: 1px solid #065f46;
-            border-radius: 8px;
-            padding: 14px 16px;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-            .result.show {
-                display: flex;
-            }
-
-        .result-label {
-            font-size: 0.58rem;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 700;
-        }
-
-        .result-code {
-            font-family: monospace;
-            font-size: 1.1rem;
-            color: #4ade80;
-            letter-spacing: 0.14em;
-            text-align: center;
-            font-weight: 700;
-        }
-
-        .btn-copy2 {
-            background: rgba(74,222,128,0.08);
-            border: 1px solid rgba(74,222,128,0.25);
-            border-radius: 5px;
-            color: #4ade80;
-            font-size: 0.65rem;
-            cursor: pointer;
-            padding: 5px;
-            font-weight: 600;
-            width: 100%;
-        }
-
-            .btn-copy2:hover {
-                background: rgba(74,222,128,0.15);
-            }
-
-        .warning {
-            background: rgba(251,191,36,0.08);
-            border: 1px solid rgba(251,191,36,0.2);
-            border-radius: 7px;
-            padding: 8px 12px;
-            font-size: 0.62rem;
-            color: #fbbf24;
-            line-height: 1.7;
-        }
-
-        .hint {
-            font-size: 0.6rem;
-            color: #4b5563;
-            text-align: center;
-        }
-
-        @media (max-width: 520px) {
-            body {
-                align-items: flex-start;
-                padding: 12px;
-            }
-
-            .card {
-                padding: 24px 20px;
-                border-radius: 12px;
-                gap: 18px;
-                width: 100%;
-            }
-
-            h2 {
-                font-size: 1.05rem;
-            }
-
-            p {
-                font-size: 0.78rem;
-            }
-
-            label {
-                font-size: 0.72rem;
-            }
-
-            input[type="text"] {
-                font-size: 1rem;
-                padding: 13px 14px;
-            }
-
-            button {
-                padding: 15px;
-                font-size: 0.92rem;
-            }
-
-            .result-code {
-                font-size: 1.3rem;
-            }
-
-            .btn-copy2 {
-                font-size: 0.75rem;
-                padding: 10px;
-            }
-
-            .warning {
-                font-size: 0.72rem;
-                padding: 10px 14px;
-            }
-
-            .hint {
-                font-size: 0.68rem;
-            }
-
-            .result-label {
-                font-size: 0.65rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIkFjdGl2YWNpXHUwMGYzIGxsaWNcdTAwZThuY2llcyIsICJzaG9ydF9uYW1lIjogIkFjdGl2YWNpXHUwMGYzIGxsaWNcdTAwZThuY2llcyIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMGEwYTBmIiwgInRoZW1lX2NvbG9yIjogIiMwYTBhMGYiLCAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFNQUFBQURBQ0FZQUFBQlMzR3dIQUFBR3lrbEVRVlI0bk8zZE8zTGNSaFNGNFpiTDZXUlVGVE5XT1hIa05TaDE3dHhiNEZxOEVPVktIWGdGaWhRcWM1V2RjUUYwUU1FYUR2Rm9kTi9iajN2K3IwcUpTSW9RY0E2Nkd3UE1wQVFBQUFieTAxKy9QL2ZlQmdVLzlONEF2TFdFbnhMNG93Q0R1UTA5SmZCRkFRYXlGWFpLNEljQ0RPSW81SlRBeDd2ZUczREc1ZklRTWdUdlAzMDQvSjUvZnYyendaYlllWHI2T2tXMmZ1eTlBVnVpaHIzRWJPRlBhZjM0alZpS29UWklNZlJIWi84Wnc1OWpsRElNc1JHS3dVOUpOL3pYZWhlaDZ5OVhEWDVLaFA5V3J5SjB1UXAwdVR3OEUvNXRSK0hQV1RUUHBsY21taFpBUGZncDFZZDMrZm1JSlVpcGZVYWFGVUE5K0NuVlgrNjgvZm1vSlVpcFhWN2M1MTBFLzdXOTBHNkZYMzI5NExrK2NCMEJDUDliVzJFdERYL3U5OHpNTTBkdUJTRDg2N2JDdXZiM3VjR09QZ0trNUpjbmx3SVEvblZIZ2I3K091Ri95eU5YNW5NcndyL1BhcnFpRlB4Ymxtc0MweEdBOEIrekNLNXkrRk95elpsWkFRaC92cG9BcTRkL1laVTNrd0lRL3ZOS2drejRYN1BJWGZWY2l2RFhpZmdzUUdzMWE0S3FFWUR3MThzSmQvVHIvTFZxY3NnamtRT2dCUDBVRjRDenZ5MUtVS2MwajBVRklQdytLRUdka2x3eUJSb01KV2pyZEFFNCsvdWpCT1hPNXBNUllGQ1VvSTFUQmVEczN4WWxLSE1tcDR3QWc2TUV2cklMd05tL0gwcHdYbTVlczE5Q3BnQmwvdjdqMytwLzQvN3hMcVhFYlJObjVkd2lrVlVBd24vTUl1ZzVmdm41dDhQdm9RVGZIWldBQWhScUZmZzFGaVZRR1Uwb2dKR2VnVjlUV29LU3RjTE1SYWd1Z0hyNFJ3dit0WndTZlA3eU1kMC8zcGtza21jdHdsNEpLTUNLa1VOL0s2Y0UxbVlyQWdYSU5GUHdyMUdDZlJUZ3dLekJ2MFlKdGxHQURSR0NmNDBTck5zcndPNHJ3WVIvTHArL2ZHeitPMmQ0Qlhvdng4TitScGlYaU1HdllYV3BkRmE3VTZCb0kwRDA4SitkQWxsK0VNZm9VNkd0YVpETTNhRFJ3MThpNTIzWFJ3OTJMWWtSb0dmNGx4dlphdVJzZjgwQzJPcHUwNUhMc2pVQ2hGOER0QXkvUmRoei8xM0wvOWY3VHgrR0RxK24wQ09BZC9pOUFuOVdxM2Vjbm5rVWtGc0RlSVgvL3ZIdS96OHo0YUdhZFNFTFlCMytXVU8vV01KZlc0SlJ6KzQxd2hYQU12d3poMzdMVVlnamhueFBxQUpZaFQ5aThLK2QvYUMreUVJVndFTGs0Ris3RGJ0aStGTUtWQURMaDg5Vm5Ga2JSQldtQURXaVQzbXNGcllScnhLRktFRE4yVDl5OEhFc1JBRktSUWwvaTJ2OE03OEl0bWY2QW5DVEcycE1YNEJTVWM3K0M4OVJJT3JaUHlXQm0rSFdSQXYvR1V1WXVUWGl4ZFFqQU5PZjE4NWUwZGtLK043WDF2UjRGTk9LNUFpQTd4VE84bnVtSGdGS1JKLyt0SjZMejN6MlQwbXdBQXBhbFdEMjhLZEVBY0x5TGtHRThLY1UvSWt3K016eFo3emt1ZlZFR0FVUW9menUwQ2xSQUh5ajl2a0FDd3FBVnlLL3VydUdBa0NhM0x0Q0FEa29BS1JSQUVpakFKQkdBU0NOQWtBYUJZQTBDZ0JwRkFEU0tBQ2tVUUJJb3dDUVJnRWdqUUpBbXZUYm92QytRaStpdjFQR0hybm5BUWo5dnFobDRIbUFSUGh6cU8wam1RS29IZGdhU3Z0S29nQktCOVNLeWo0TFh3Q1ZBK2xCWWQrRkxvRENBZlFXZlIrR0xVRDBBOWRTNUgwWnRnQkFEZ29BYVNFTEVIbkk3aVhxUGcxWkFDQVhCWUEwQ2dCcEZBRFNLQUNrU1Q4UDBNdmVMY2RScjdhTWlnSTBrbnVmL2ZYM1VRWi9USUVhS0gzSUpPckRLU09oQU01cVEwd0pmRkVBUjFiaHBRUitLSUFUNjlCU0FoOFV3SUZYV0NtQlBRcGd6RHVrbE1BV0JZQTBDZ0JwRk1CUXEra0oweUE3RkFEU0tBQ2tVUUJJb3dDUVJnRWdqUUpBR2dVdzFPcitmWjRUc0VNQklJMENRQm9GTU9ZOVBXSDZZNHNDT1BBS0tlRzNSd0djV0llVjhQdWdBSkJHQVNDTkFrQWFCWUEwQ2dCcEZBRFNLQUNrVVFCSW93Q1FSZ0VnalFKQUdnV0FOQW9BYVJRQTBpZ0FwRkVBU0tNQWtFWUJJSTNQQ1hiRVk0empZd1NBTkFvQWFSUUEwaWdBcElVc0FKK2haUy9xUGcxWkFDRFhiZ0dlbnI2K2E3VWhnSmU5SEljZEFhSU8yVDFFM3BkaEM1QlM3QVBYU3ZSOUdMb0FLY1UvZ0o0VTlsMzRBcVNrY1NDdHFleXp3d0pFV1FpckhGQUxrZmJWVVg0bFJvQkZwQVByUlcwZlpaM2RMNWVIWis4TjZZRzdOVjlFRHYzUkNKQTl2WWxhQXNTVk0zMlhtZ0lCdDdJTEVHVXhEQTI1ZVdVRWdMUlRCV0FVd0F6TzVKUVJBTkpPRjRCUkFDTTdtMDlHQUVncktnQ2pBRVpVa3N2aUVZQVNZQ1NsZVdRS0JHbFZCV0FVd0FocWNsZzlBbEFDOUZTYlA1TXBFQ1ZBRHhhNU0xc0RVQUswWkpVMzAwVXdKVUFMbGprenZ3cEVDZURKT2w4dWwwRXBBVHg0NU1ydGRRQktBRXRlZVhKOUlZd1N3SUpuanBvRmxHZUtjVmFMRTJpeld5RVlEWEJHcTd4MENTV2pBYmEwUGxGMlBTdFRCQ3g2elJDR21KWlFCRjI5cDhaREZHQkJFWFQwRHY1aWlJMVlReG5pR1NYMDE0YmJvRDJVWWg0amhoMEFBQUFBQUFDcS9nTXJ6TU9ReW9hKyt3QUFBQUJKUlU1RXJrSmdnZz09IiwgInNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmcifSwgeyJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFnQUFBQUlBQ0FZQUFBRDBlTlQ2QUFBVWhrbEVRVlI0bk8zZE80NWJaNTdHNGVPRzBzcGtRSm1BVGlhYUZVemcxUG5rdlFXdHhWdVkzTGxUQjcwQ1IwNEdjR2JBenJRQVRhQXBxMVN1QzhuelhmNlg1d0U2YTZ0WVpKSHY3M3lrU3NjQkFBRHdrbi8rKzErZmR0OEc0THgvN0w0QlFCNzM0eThDSUQ4QkFGems4ZWlMQU1oTkFBQ3ZlbTdzUlFEa0pRQ0FVLzc1NzM5OUVnS1Fqd0FBWG5UcHVJc0F5RVVBQU0rNmR0UkZBT1FoQUlBbjNUcm1JZ0J5RUFEQTM1d2RjUkVBOFFrQTRDdWp4bHNFUUd6ZjdMNEJRQnl6UnZ0Ly8rdC92TlpBTUU0QWdPbWNCa0E4QWdBNGptUCtTSXNBaUVVQUFNdkdXUVJBSEFJQW1sczV5ajRMQUhFSUFHak0rRU5mQWdDYU12N1Ftd0NBaHJ3WER3Z0FZQ3BYL3hDVEoyWVRkM2Z2WGZGeEhNZHhmUHZUZDh1KzFoL2YvN3pzYXpIV3g0Ky8yWWZpUE1CRkdIZ3VZZndaUlNEazV3Rk15Tmh6QytQUGJLSWdGdzlXQWdhZnM0dy9Pd2lDMkR3NEFSbDhSakwrUkNFSVlubXord2J3bWRGbmhwWGpENjk1K0RvbkJ2WVRBQnNaZlNweDljODF4TUIrN3ZURmpENnJPUG9uSXpHd2pqdDZFY1BQU3NhZjdJVEFmTzdnaVl3K094aC9xaEVEYy9oVndCUGMzYjMvWlB6WklmUDQrOEFpei9HYU9vZXFHc2dQS0R0VkdYK25DcnpHaWNBWVRnQUdVS2ZzbHZucStmRnR6L3k5c0liWDNESDhOY0FUL0FEUzBhZ3JkRVBQV2ZldndVNEVidU5PdTRIaEo1S01SLytYM0dadkJYQXRJWEFkYndGY3lmZ1RTZFh4ditiL0IvZThQbDlITFYzSUR4YlJWQjcvR1YrYlhwd0d2TTRkOUFyRFQyUXJJaURDZS80aWdGc0pnZWQ1QytBRnhwL29aZy9qaUQvLzI1KytjNXpQTmw3SG55Y0FudUN2bUpCSjVLdmpVY012SURqRGEvclRISTA4NG9lRXpFWU81ZG13bURIYWtXT0hITHdsOElVVGdBZU1QOW1OR3NpSTR6L3p6NlVQci9OZktLSEREd1QxN1B6QVhhWVBKdEpiOTlPQTlpY0F4cDlxemc3d3JmKzlEL3VSVGZmWC85WUIwUDNCcDU1ZEg3cGJQZnhDZzFFNjcwREw0NC9PRHpoMTdmclEzYzR4OWxZQUkzVjdTNkRkQ1lEeHA2SmRIN296L2xUU2JSOWFCVUMzQjVjZVpvL3djMysrOGFlaVRqdlI1cmlqMDROS0h6ditQUUREVHdjZDNnNG8vdzBlaC9HbnRpNGZpRFArckZZOUFzcS9CV0Q4cWE3RE1IYjRIb21uK242VURvRHFEeDdjcXp5UWxiODM0cXU4STJVRG9QS0RCaytwT0pRVnZ5ZnlxYm9uSmQvZnFQcGd3U1VxZkNiQThCTlJ0YzhFbERzQk1QNTBsMzA4czk5KzZxcTJMNlVDb05xREE3ZktPcUpaYnpkOVZOcVpNZ0ZRNlVHQkViS05hYmJiUzE5VjlxWkVBRlI1TUdDMExLT2E1WGJDdlFxN2svNEREUlVlQkpndDZnY0REVC9aWmY1Z1lPb1RBT01QbDRrNHRCRnZFMXdyOHc2bERZRE1kenJzRUdsd0k5MFdPQ3ZySHFVTWdLeDNOdXdXWVhnajNBWVlMZU11cFF3QTRIWTdCOWo0UXh6cFByeVFzYklnb2gzL2xEQlVsK2xEZ2FsT0FJdy9qTE55bEtQK0xRUVlMZE5PcFFtQVRIY3FaQ0VDWUx3c2U1VW1BSUE1UkFEMGxDSUFzdFFVWkNVQ1lLd011eFUrQURMY2lWQ0JDSUN4b3U5WDZBQ0lmdWRCTlNJQXhvcThZNkVEQUZoUEJFQVBZUU1nY2pWQmRTSUF4b202WnlFRElPcWRCWjJJQUJnbjRxNkZEQUFnQmhFQWRZVUxnSWlWQkoySkFCZ2oycjZGQ3dBZ0hoRUE5WVFLZ0doMUJId2hBdUM4U0RzWEpnQWkzU25BMDBRQW5CZGw3OElFQUpDRENJQWFRZ1JBbEJvQ0xpTUM0SndJdXhjaUFJQjhSQURrdGowQUlsUVFjQnNSQUxmYnZYL2JBd0RJVFFSQVRsc0RZSGY5QUdPSUFMak56aDEwQWdBTUlRSWdsMjBCNE9vZjZoRUJjTDFkZStnRUFCaEtCRUFPV3dMQTFUL1VKZ0xnT2p0MjBRa0FNSVVJZ05nRUFEQ05DSUM0bGdlQTQzL29SUVRBWlZidm94TUFZRG9SQVBGOHMvS0x1ZnFIT1g3LzRjL2xYL1BkaDdkWC96Y3J4M2xsZE1CSUh6Lyt0bVNiQlFBRXRtUFlSM3NjQ2lJQVhpWUFvSWtLSTMrdC8veVAvMTcydFVRQTJaUUxBT05QZHgySC9pVWlBSjYzSWdJRUFFeGc3QzhqQXVCcEFnQ1NNUGkzcXhnQnQzek9RYUR3VUprQU1QNVVZL0RIeWh3Qk16L1VLQXA2bXgwQkFnQXVZUERueXhRQk8zN1hnQmpvUndEQUprWi92Y2dSRU9rWERJbUJIdElIZ1BFbkU2Ty9YN1FJaURUOGp3bUIrbVpHZ0FDZ1BhTWZUNFFJaUR6OGp3bUJ1Z1FBREdiMDQxc1pBYi84K3VOZnY3RXcwL0EvSmdUcUVRQXdpT0hQWldVRVZDSUU2a2diQU1hZkNJeCtiaUxnTmlLZ2psa1JJQUFveS9EWElRSnVJd0pxRUFCd0ljTmZrd2k0blJESVRRREFLd3gvZlNMZ2RpSWdyM1FCWVB4WnhmRDNJZ0p1SndMeW1oRUJBb0MwREg5Zkl1QjJJaUFuQVFDSDRlY3pFWEE3RVpDUEFLQTF3ODlqSXVCMklpQVhBVUJMaHArWGlJRGJpWUE4MGdTQThXY0V3OCtsUk1EdFJFQWVveVBnSHlQL01CakYrSE9OWDM3OWNmZE5nSFNjQUJDSzRlY01Kd0czY1FxUXcrZ1RBQUZBQ0lhZlVVVEFiVVJBZktNRDRNM0lQd3h1WWZ5cDZwSlJqZkxQRDMvNzAzY2lvQmtCd0RhR24ycHVHZERILzAyVUlLQStid0d3aGZGbmhwM0gvNk92bm5lRmdGT0F1UHd0QU5Jei9sUTBlckQvK1A1blk4eFV3MDhBWFAzekhNUFBURkUrL0RkcnRGZWVDQWlQdUVhZUFqZ0JZQW5qVHhlemh0b29NNW9BWURyanoyeFJydjd2Wlk4QUgwVHNRUUF3bGZHbnErd1JRSDArQThBVWhwOVZvbDM5UDViNU13RmlJNTZSbndId2V3QVl6dmp2OGU3RDIyVmZ5Mk44dVZtL1lPZVA3MzkyVk04cFRnQVl5akNNdDNMWVIxdng4eEQ5Qk9CZXhwTUFKd0R4akR3QkVBQU1ZL3h2bDNua2J6WGk1eVhMK044VEFaemxMUURDTWY2WDZ6ajJUM25xZnFqK2MrVDM3Uk9KRXdCT3EvNmlmWmJCdjkxclAxdlpUZ0R1ellnQWYrdWdCMjhCRUlieC96dURQOC9EbjdlczQzOHYwNzhkSUFMaUVBQ0VZUHcvTS9oN1ZQZ0VmSllJRUFCeCtGWEFiTmQ5L045OWVQdlgvNmhsNWRoVmlCanlFZ0JjcmV2NEcvMzY3c2MvYXdTNFV1Y2FBb0NyZEJ0L285OVgxZ2lBU3drQWVNVG94N2RxTUZkRlFQUXJkNEZTa3dEZ1l0V3YvbzArVDVrOXp0SEhuN29FQUJlcFBQNkduK040ZVlobmpmU3NmeU1BTHVFM0FmS3FpdU52OExuVzZIOTh4MUN6bXhNQVhsUnQvRjN0YzhhbzBUYitSQ0FBYU1Qd004TFo4VGIrUkNFQWVGYVZxMzlYL1l4MjY0Z2JmeUlSQUR5cHd2Z2JmbWE2ZHN5TlA5RUlBTW94L0t4eTZhZ2JmeUlTQVB4TjVxdC93ODlxcjQyNzhTY3FBY0JYc282L3EzNTJlbTdralQrUkNRRFNNL3lNY1BiditEOGUrMTNqNzlmMmNpa0J3Rjh5WHYwYmZ5TFo4YThKd3EwRUFDazU4dTh0OHNCR3ZtMjNxdmc5SVFENGY1bXUvZzAvd0hrQ2dGU01Qek5sZi84OCsrMW5MUUZBbXF0LzR3OHdqZ0FnQmVQUEtsbXZvclBlYnZZUkFNMWx1UG8zL2p6RkI5UFdjRC9YSlFBSXpmaXpRN2FyNld5M2x4Z0VRR1BSci82TlA4QThBb0NRakQrWG1IazhuZVdxZXVidGRQeGZtd0FnSE9OUEZORWpJUHJ0SXpZQjBGVDA0MytJSXVySVJyMWQ1Q0VBQ01YVlA5ZGFjVXdkYld4WDNCN0gvL1VKQU1Jdy9rUVdKUUtpM0E3eUV3QU5PZjZubWxWWHE3dkhkOVhYZC9YZmd3QWdCRmYvWkxFckFuYkhCL1VJQUtDRWxWZXQzLzcwM2JKQlh2bTFqc1BWZnlkdmR0OEExb3A0L08vcW42enVoM25HYUxyaVp6WW5BRUFadTY1ZVIxNmxyNzdpZitpWFgzL2M4blhad3drQVc3bjZwNUxIdzMxSmtMalNaeGNCQUpUeXgvYy9oeG5WS0xmakVxNysrL0VXQU51NCttY1dIMlM3anZIdlNRQUFKWW1BeXhqL3ZnUkFJeEgvQmdBUWk5ZUpQZ1FBVUpaVGdKZTUrdTlOQUxDRjkvOVpSUVE4emZnakFJRHlSTURYakQvSElRQ0FKa1RBWjhhZmV3SUFhS043QkJoL0hoSUFRQ3RkSThENDg1Z0FBTnJwRmdIR242ZDhNL29Qdkx0Ny8ybjBud2t3UzZaZjEzdXRicUhUd2NlUHZ3M2JiU2NBUUd0VlI3THE5OFU0QWdCb3I5cFlWdnQrbU1OYkFBQVBaSDVMd1BEWE4vSXRBQUVBOElSTUlXRDQreEFBQUl0RURnSEQzNDhBQUZnc1VnZ1kvcjRFQU1CR08yTEE2SE1jQWdBZ2pKa3hZUFI1VEFBQUJIWkxGQmg3TGlFQUFLQWh2d2tRQURoRkFBQkFRd0lBQUJvU0FBRFFrQUFBZ0lZRUFBQTBKQUFBb0NFQkFBQU5DUUFBYUVnQUFFQkRBZ0FBR2hJQUFOQ1FBQUNBaGdRQUFEUWtBQUNnSVFFQUFBMEpBQUJvU0FBQVFFTUNBQUFhRWdBQTBKQUFBSUNHQkFBQU5DUUFBS0FoQVFBQURRa0FBR2hJQUFCQVF3SUFBQm9TQUFEUWtBQUFnSVlFQUFBMEpBQUFvQ0VCQUFBTkNRQUFhRWdBQUVCREFnQUFHaElBQU5DUUFBQ0FoZ1FBQURRa0FBQ2dvVGU3YndCYzYvY2YvdHg5RStCdjNuMTR1L3Ntd0ZXK0dmMEgzdDI5L3pUNno2UXZZMDltb29EUlBuNzhiZGh1Q3dCQ012eFVJZ1FZUlFCUWt0R25BekhBR1FLQVVndy9IUWtCYmpFeUFQd3RBTFl5L25UbFo1L2RuQUN3aFJjLytNSnBBSmR5QWtCcXhoKys1am5CRGdLQXBielF3ZE04TjFoTkFMQ01Gemg0bWVjSUt3a0FsdkRDQnBmeFhHRVZBY0IwWHREZ09wNHpyQ0FBbU1vTEdkekdjNGZaQkFEVGVBR0RjenlIbUVrQU1JVVhMaGpEYzRsWkJBRERlY0dDc1R5bm1FRUFBRUJEQW9DaFhLbkFISjViakNZQUdNWUxGTXpsT2NaSUFnQUFHaElBRE9IS0JOYndYR01VQVFBQURRa0FBR2hJQUhDYUkwbFl5M09PRVFRQUFEUWtBRGpGbFFqczRibkhXUUlBQUJvU0FBRFFrQUFBZ0lZRUFBQTBKQUM0bVE4aHdWNmVnNXdoQUFDZ0lRRUFBQTBKQUFCb1NBQUFRRU1DQUFBYUVnQUEwSkFBQUlDR0JBQUFOQ1FBQUtBaEFRQUFEUWtBQUdqb3plNGJBS3p4N3NQYmkvKy9mc2M4MUNjQW9LQnJ4djdTLzE0VVFDMENBQW81Ty95WC9ObENBR29RQUpEY3pORi83ZXVKQWNoTEFFQlNxNGYvcGRzZ0JDQWZmd3NBRW9vdy9nOUZ1ejNBNjV3QVFDS1JoOVpwQU9UaUJBQ1NpRHorRDJXNW5kQ2RBSUFFc28xcXR0c0xIUWtBQ0M3cm1HYTkzZENGQUlEQXNvOW85dHNQbFFrQUNLcktlRmI1UHFBYUFRQUJWUnZOYXQ4UFZDQUFJSmlxWTFuMSs0S3NCQUFFVW4wa3EzOS9rSWtBZ0NDNmpHT1g3eE9pRXdBQTBKQUFnQUM2WFJWMyszNGhJZ0VBbTNVZHc2N2ZOMFFoQUFDZ0lRRUFHM1cvQ3U3Ky9jTk9BZ0FBR2hJQUFOQ1FBSUJOSEg5LzVuNkFQUVFBQURRa0FHQURWNzFmYzMvQWVnSUFBQm9TQUFEUWtBQUFnSVlFQUFBMEpBQmdNUjk0ZTVyN0JkWVNBQURRa0FBQWdJWUVBQUEwSkFBQW9DRUJBQUFOQ1FBQWFFZ0FBRUJEQWdBQUdoSUFBTkNRQUFDQWhnUUFMUGI3RDMvdXZna2h1VjlnTFFFQUFBMEpBQUJvU0FBQVFFTUNBQUFhRWdDd2dRKzhmYzM5QWVzSkFBQm9TQURBSnE1NlAzTS93QjRDQUFBYUVnQUEwSkFBZ0kyNkgzOTMvLzVoSndFQUFBMEpBTmlzNjFWdzErOGJvaEFBRUVDM01lejIvVUpFQWdBQUdoSUFFRVNYcStJdTN5ZEVKd0Fna09yaldQMzdnMHdFQUFSVGRTU3JmbCtRbFFDQWdLcU5aYlh2QnlvUUFBRFFrQUFBZ0lZRUFBQTBKQUFBb0NFQkFBQU5DUUFBYUVnQUFFQkRBZ0FBR2hJQUFOQ1FBQUNBaGdRQUFEUWtBQUNnSVFFQUFBMEpBQUJvU0FBQVFFTUNBQUFhRWdBQTBKQUFBSUNHQkFBQU5DUUFBS0FoQVFBQURRa0FBR2hJQUFCQVF3SUFBQm9TQUFEUWtBQUFnSVlFQUFBMEpBQUFvQ0VCQUFBTkNRQUFhRWdBQUVCREFnQUFHaElBQU5DUUFBQ0FoZ1FBQURRa0FBQ2dJUUVBQUEwSkFBQm9TQUFBUUVNQ0FBQWFFZ0FBMEpBQUFJQ0dCQUFBTkNRQUFLQWhBUUFBRFFrQUFHaElBQUJBUTI5MjN3RGdhYi8vOE9mdW13QVU1Z1FBQUJvU0FBRFFrQUFBZ0lZRUFBQTBKQUFBb0NFQkFBQU5DUUFBYUVnQUFFQkRBZ0FBR2hJQUFOQ1FBT0JtN3o2ODNYMFRvRFhQUWM0WUhnQWZQLzcyemVnL0V3QzZHNzJ2VGdBQW9DRUJBQUFOQ1FBQWFFZ0FjSW9QSWNFZW5udWNKUUFBb0NFQndHbXVSR0F0enpsR0VBQUEwTkNVQVBDN0FBQmduQm03NmdTQUlSeEp3aHFlYTR3aUFBQ2dJUUhBTUs1TVlDN1BNVVlTQUF6bEJRcm04TnhpdEdrQjRJT0FBSERlckQxMUFzQndybFJnTE04cFpoQUFUT0VGQzhid1hHSVdBY0EwWHJqZ0hNOGhacG9hQUQ0SGdCY3d1STNuRHNjeGQwZWRBRENkRnpLNGp1Y01Ld2dBbHZDQ0JwZnhYR0VWQWNBeVh0amdaWjRqckRROUFId09nSWU4d01IVFBEZDRiUForT2dGZ09TOTA4RFhQQ1haWWNuVitkL2YrMDRxdlF6Ni8vL0RuN3BzQTJ4aCtYbExpQk1EYkFEekhDeUJkK2RubkpTdDJjOWt3T3dYZ05VNEQ2TUR3Y3drQlFGdGlnRXFNUHRjcUZRREhJUUs0bmhBZ004UFBMVmE5YlM0QVNFY1VFSkd4WnhRQkFBQU5yUXFBcGI4SHdOOEdBSURucmR4SnZ3Z0lBQnBhSGdCT0FRRGc3MWJ2b3hNQUFHaElBQUJBUTFzQ3dOc0FBUERGamwxMEFnQUFEVzBMQUtjQUFMQnZENTBBQUVCRFd3UEFLUUFBbmUzY1FTY0FBTkRROWdCd0NnQkFSN3YzYjNzQUFBRHJoUWlBM1JVRUFDdEYyTDBRQVFBQXJCVW1BQ0xVRUFETUZtWHZ3Z1RBY2NTNVV3Qmdoa2c3RnlvQUFJQTF3Z1ZBcERvQ2dGR2k3VnU0QUFBQTVnc1pBTkVxQ1FET2lMaHJJUVBnT0dMZVdRQndyYWg3RmpZQUFJQjVRZ2RBMUdvQ2dFdEUzckhRQVhBY3NlODhBSGhPOVAwS0h3REhFZjlPQklDSE11eFdpZ0FBQU1aS0V3QVphZ29Bc3V4Vm1nQTRqangzS2dBOVpkcXBWQUZ3SExudVhBRDZ5TFpQNlFJQUFEZ3ZaUUJrcXl3QWFzdTRTeWtENERoeTN0a0ExSk4xajlJR3dISGt2ZE1CcUNIekRxVU9nT1BJZmVjRGtGZjIvVWtmQU1lUi8wRUFJSmNLdTFNaUFJNmp4b01CUUh4VjlxWk1BQnhIblFjRmdKZ3E3VXlwQURpT1dnOE9BSEZVMjVkeUFYQWM5UjRrQVBhcXVDc2xBK0E0YWo1WUFLeFhkVS9LQnNCeDFIM1FBRmlqOG82VURvRGpxUDNnQVRCUDlmMG9Id0RIVWY5QkJHQ3NEcnZSSWdDT284ZURDY0I1WGZhaVRRQWNSNThIRllEYmROcUpWZ0Z3SEwwZVhBQXUxMjBmV24yemo5M2R2ZiswK3pZQXNGZTM0Yi9YN2dUZ29hNFBPZ0NmZGQ2QjFnRndITDBmZklET3VyLyt0LzdtSC9PV0FFQjkzWWYvWHZzVGdJZjhVQURVNW5YK0N3SHdpQjhPZ0pxOHZuL05uZkVDYndrQTVHZjRuK1lFNEFWK2FBQnk4enIrUEhmTWhad0dBT1JoK0YvbkRycVNFQUNJeS9CZnpsc0FWL0xEQlJDVDErZnJ1TE5PY0JvQXNKL2h2NDA3YlFBaEFMQ2U0VC9IblRlUUVBQ1l6L0NQNFU2Y1FBZ0FqR2Y0eDNKblRpUUVBTTR6L0hPNFV4Y1JBd0NYTS9yenVZTVhFd0lBenpQODY3aWpOeElEQUVaL0YzZDZFR0lBNk1UbzcrY0JDRWdNQUJVWi9WZzhHQWtJQWlBamd4K2JCeWNoUVFCRVpQQno4V0FWSVFxQWxZeDlmaDdBSmdRQ2NBMEREd0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFVOFgveldsMTBRV3Qxc3dBQUFBQkpSVTVFcmtKZ2dnPT0iLCAic2l6ZXMiOiAiNTEyeDUxMiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSJ9XX0="/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Activació llicències"/>
+<meta name="theme-color" content="#0a0a0f"/>
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAGyklEQVR4nO3dO3LcRhSF4ZbL6WRUFTNWOXHkNSh17txb4Fq8EOVKHXgFihQqc5WdcQF0QMEaDvFodN/bj3v+r0qJSIoQcA66GwPMpAQAAAby01+/P/feBgU/9N4AvLWEnxL4owCDuQ09JfBFAQayFXZK4IcCDOIo5JTAx7veG3DG5fIQMgTvP304/J5/fv2zwZbYeXr6OkW2fuy9AVuihr3EbOFPaf34jViKoTZIMfRHZ/8Zw59jlDIMsRGKwU9JN/zXeheh6y9XDX5KhP9WryJ0uQp0uTw8E/5tR+HPWTTPplcmmhZAPfgp1Yd3+fmIJUipfUaaFUA9+CnVX+68/fmoJUipXV7c510E/7W90G6FX3294Lk+cB0BCP9bW2EtDX/u98zMM0duBSD867bCuvb3ucGOPgKk5JcnlwIQ/nVHgb7+OuF/yyNX5nMrwr/ParqiFPxblmsC0xGA8B+zCK5y+FOyzZlZAQh/vpoAq4d/YZU3kwIQ/vNKgkz4X7PIXfVcivDXifgsQGs1a4KqEYDw18sJd/Tr/LVqcsgjkQOgBP0UF4Czvy1KUKc0j0UFIPw+KEGdklwyBRoMJWjrdAE4+/ujBOXO5pMRYFCUoI1TBeDs3xYlKHMmp4wAg6MEvrILwNm/H0pwXm5es19CpgBl/v7j3+p/4/7xLqXEbRNn5dwikVUAwn/MIug5fvn5t8PvoQTfHZWAAhRqFfg1FiVQGU0ogJGegV9TWoKStcLMRagugHr4Rwv+tZwSfP7yMd0/3pkskmctwl4JKMCKkUN/K6cE1mYrAgXINFPwr1GCfRTgwKzBv0YJtlGADRGCf40SrNsrwO4rwYR/Lp+/fGz+O2d4BXovx8N+RpiXiMGvYXWpdFa7U6BoI0D08J+dAll+EMfoU6GtaZDM3aDRw18i523XRw92LYkRoGf4lxvZauRsf80C2Opu05HLsjUChF8DtAy/Rdhz/13L/9f7Tx+GDq+n0COAd/i9An9Wq3ecnnkUkFsDeIX//vHu/z8z4aGadSELYB3+WUO/WMJfW4JRz+41whXAMvwzh37LUYgjhnxPqAJYhT9i8K+d/aC+yEIVwELk4F+7Dbti+FMKVADLh89VnFkbRBWmADWiT3msFrYRrxKFKEDN2T9y8HEsRAFKRQl/i2v8M78Itmf6AnCTG2pMX4BSUc7+C89RIOrZPyWBm+HWRAv/GUuYuTXixdQjANOf185e0dkK+N7X1vR4FNOK5AiA7xTO8numHgFKRJ/+tJ6Lz3z2T0mwAApalWD28KdEAcLyLkGE8KcU/Ikw+MzxZ7zkufVEGAUQofzu0ClRAHyj9vkACwqAVyK/uruGAkCa3LtCADkoAKRRAEijAJBGASCNAkAaBYA0CgBpFADSKACkUQBIowCQRgEgjQJAmvTbovC+Qi+iv1PGHrnnAQj9vqhl4HmARPhzqO0jmQKoHdgaSvtKogBKB9SKyj4LXwCVA+lBYd+FLoDCAfQWfR+GLUD0A9dS5H0ZtgBADgoAaSELEHnI7iXqPg1ZACAXBYA0CgBpFADSKACkST8P0MveLcdRr7aMigI0knuf/fX3UQZ/TIEaKH3IJOrDKSOhAM5qQ0wJfFEAR1bhpQR+KIAT69BSAh8UwIFXWCmBPQpgzDuklMAWBYA0CgBpFMBQq+kJ0yA7FADSKACkUQBIowCQRgEgjQJAGgUw1Or+fZ4TsEMBII0CQBoFMOY9PWH6Y4sCOPAKKeG3RwGcWIeV8PugAJBGASCNAkAaBYA0CgBpFADSKACkUQBIowCQRgEgjQJAGgWANAoAaRQA0igApFEASKMAkEYBII3PCXbEY4zjYwSANAoAaRQA0igApIUsAJ+hZS/qPg1ZACDXbgGenr6+a7UhgJe9HIcdAaIO2T1E3pdhC5BS7APXSvR9GLoAKcU/gJ4U9l34AqSkcSCtqeyzwwJEWQirHFALkfbVUX4lRoBFpAPrRW0fZZ3dL5eHZ+8N6YG7NV9EDv3RCJA9vYlaAsSVM32XmgIBt7ILEGUxDA25eWUEgLRTBWAUwAzO5JQRANJOF4BRACM7m09GAEgrKgCjAEZUksviEYASYCSleWQKBGlVBWAUwAhqclg9AlAC9FSbP5MpECVADxa5M1sDUAK0ZJU300UwJUALljkzvwpECeDJOl8ul0EpATx45MrtdQBKAEteeXJ9IYwSwIJnjpoFlGeKcVaLE2izWyEYDXBGq7x0CSWjAba0PlF2PStTBCx6zRCGmJZQBF29p8ZDFGBBEXT0Dv5iiI1YQxniGSX014bboD2UYh4jhh0AAAAAAACq/gMrzMOQyoa++wAAAABJRU5ErkJggg=="/>
+<title>KUBIK — Generador de Códigos de Activación</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0a0a0f; color: #e8e8f0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 13px; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+}
+.card {
+  background: #13131f; border: 1px solid #1e1e30; border-radius: 14px;
+  padding: 32px 36px; width: 480px; display: flex; flex-direction: column; gap: 20px;
+}
+h2 { font-size: 0.95rem; font-weight: 800; color: #e8e8f0; text-align: center; display:flex; align-items:center; justify-content:center; gap:10px; }
+p  { font-size: 0.7rem; color: #6b7280; text-align: center; line-height: 1.7; }
+label { font-size: 0.65rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; display:block; margin-bottom:6px; }
+input[type="text"] {
+  width: 100%;
+  background: #0a0a0f; border: 1px solid #1e1e30; border-radius: 7px;
+  color: #e8e8f0; padding: 10px 14px; font-size: 0.82rem;
+  font-family: monospace; letter-spacing: 0.08em; outline: none; text-transform: uppercase;
+}
+input:focus { border-color: #1877f2; }
+button {
+  width: 100%; padding: 12px;
+  background: linear-gradient(135deg, #1877f2, #0d5cbf);
+  border: none; border-radius: 8px; color: #fff; font-size: 0.82rem;
+  font-weight: 700; cursor: pointer;
+}
+button:hover { filter: brightness(1.1); }
+.result {
+  display: none; background: #0a0a0f; border: 1px solid #065f46;
+  border-radius: 8px; padding: 14px 16px; flex-direction: column; gap: 8px;
+}
+.result.show { display: flex; }
+.result-label { font-size: 0.58rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; }
+.result-code  { font-family: monospace; font-size: 1.1rem; color: #4ade80; letter-spacing: 0.14em; text-align: center; font-weight: 700; }
+.btn-copy2 {
+  background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25);
+  border-radius: 5px; color: #4ade80; font-size: 0.65rem; cursor: pointer;
+  padding: 5px; font-weight: 600; width: 100%;
+}
+.btn-copy2:hover { background: rgba(74,222,128,0.15); }
+.warning {
+  background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2);
+  border-radius: 7px; padding: 8px 12px; font-size: 0.62rem; color: #fbbf24; line-height: 1.7;
+}
+.hint { font-size: 0.6rem; color: #4b5563; text-align:center; }
+</style>
 </head>
 <body>
-    <div class="card">
-        <h2>
-            🔐 Generador de Licencias KUBIK
-        </h2>
-        <p>Introduce el ID del dispositivo del usuario (24 caracteres)<br>para generar su código de activación único.</p>
+<div class="card">
+  <h2>
+    🔐 Generador de Licencias KUBIK
+  </h2>
+  <p>Introduce el ID del dispositivo del usuario (24 caracteres)<br>para generar su código de activación único.</p>
 
-        <div class="warning">
-            ⚠️ <strong>SOLO USO INTERNO.</strong> No compartas esta herramienta.<br>
-            Cada código es único e intransferible para ese dispositivo.
-        </div>
+  <div class="warning">
+    ⚠️ <strong>SOLO USO INTERNO.</strong> No compartas esta herramienta.<br>
+    Cada código es único e intransferible para ese dispositivo.
+  </div>
 
-        <div>
-            <label>ID del dispositivo (24 caracteres)</label>
-            <input type="text" id="fpInput" placeholder="Ej: A3F7C2D1B8E402917F3C92A0" maxlength="24" autocomplete="off" spellcheck="false" />
-            <div class="hint" style="margin-top:5px;">El usuario lo ve en la pantalla de activación → sección "ID de este dispositivo"</div>
-        </div>
+  <div>
+    <label>ID del dispositivo (24 caracteres)</label>
+    <input type="text" id="fpInput" placeholder="Ej: A3F7C2D1B8E402917F3C92A0" maxlength="24" autocomplete="off" spellcheck="false"/>
+    <div class="hint" style="margin-top:5px;">El usuario lo ve en la pantalla de activación → sección "ID de este dispositivo"</div>
+  </div>
 
-        <button id="btnGenerate">⚡ Generar código de activación</button>
+  <button id="btnGenerate">⚡ Generar código de activación</button>
 
-        <div class="result" id="result">
-            <div class="result-label">✅ Código de activación para este dispositivo</div>
-            <div class="result-code" id="codeOutput">—</div>
-            <button class="btn-copy2" id="btnCopy2">📋 Copiar código</button>
-        </div>
-    </div>
+  <div class="result" id="result">
+    <div class="result-label">✅ Código de activación para este dispositivo</div>
+    <div class="result-code" id="codeOutput">—</div>
+    <button class="btn-copy2" id="btnCopy2">📋 Copiar código</button>
+  </div>
+</div>
 
-    <script>
-        const SECRET_SALT = 'KUBIK-2025-J.OYONATE-SALT-X9#mK'; // debe coincidir con license.js
+<script>
+const SECRET_SALT = 'KUBIK-2025-J.OYONATE-SALT-X9#mK'; // debe coincidir con license.js
 
-        async function sha256(message) {
-            const buf  = new TextEncoder().encode(message);
-            const hash = await crypto.subtle.digest('SHA-256', buf);
-            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
-        }
+async function sha256(message) {
+  const buf  = new TextEncoder().encode(message);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
 
-        async function generateCode(fp) {
-            const hash = await sha256(fp + ':' + SECRET_SALT);
-            return hash.substring(0, 20).toUpperCase().match(/.{1,5}/g).join('-');
-        }
+async function generateCode(fp) {
+  const hash = await sha256(fp + ':' + SECRET_SALT);
+  return hash.substring(0, 20).toUpperCase().match(/.{1,5}/g).join('-');
+}
 
-        document.getElementById('fpInput').addEventListener('input', e => {
-            e.target.value = e.target.value.replace(/[^A-Fa-f0-9]/g, '').toUpperCase().substring(0, 24);
-        document.getElementById('result').classList.remove('show');
-        });
+document.getElementById('fpInput').addEventListener('input', e => {
+  e.target.value = e.target.value.replace(/[^A-Fa-f0-9]/g, '').toUpperCase().substring(0, 24);
+  document.getElementById('result').classList.remove('show');
+});
 
-        document.getElementById('btnGenerate').addEventListener('click', async () => {
-            const fp = document.getElementById('fpInput').value.trim();
-        if (fp.length !== 24) { alert('El ID debe tener exactamente 24 caracteres hexadecimales.'); return; }
-        const code = await generateCode(fp);
-        document.getElementById('codeOutput').textContent = code;
-        document.getElementById('result').classList.add('show');
-        });
+document.getElementById('btnGenerate').addEventListener('click', async () => {
+  const fp = document.getElementById('fpInput').value.trim();
+  if (fp.length !== 24) { alert('El ID debe tener exactamente 24 caracteres hexadecimales.'); return; }
+  const code = await generateCode(fp);
+  document.getElementById('codeOutput').textContent = code;
+  document.getElementById('result').classList.add('show');
+});
 
-        document.getElementById('btnCopy2').addEventListener('click', () => {
-            const code = document.getElementById('codeOutput').textContent;
-        navigator.clipboard.writeText(code).then(() => {
-            document.getElementById('btnCopy2').textContent = '✓ ¡Copiado!';
-        setTimeout(() => { document.getElementById('btnCopy2').textContent = '📋 Copiar código'; }, 2000);
-        });
-        });
-    </script>
-    </div>
+document.getElementById('btnCopy2').addEventListener('click', () => {
+  const code = document.getElementById('codeOutput').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    document.getElementById('btnCopy2').textContent = '✓ ¡Copiado!';
+    setTimeout(() => { document.getElementById('btnCopy2').textContent = '📋 Copiar código'; }, 2000);
+  });
+});
+</script>
+</div>
 </body>
 </html>
